@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-export default function AddProductForm() {
+export default function AddProductForm({handleNewProduct}) {
+  //we send the handleNewProduct as a prop form the Parent since AddProduct is a child.
   const initialState = {
     name: '',
     image: '',
@@ -13,17 +14,27 @@ export default function AddProductForm() {
     // Update the state according to the corresponding input
     console.log('Name of the input: ', e.target.name);
     console.log('Name of the value: ', e.target.value);
+    //target es un objecte que ve amb l'event, therefore we use the function serNewProduct and ask to update the new value via
+    setNewProduct(prev => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value
+      }
+    })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // ITERATION 4
-    // Send the course info to the parent
-    // Restart the newProduct state to its initial value
+    // Sends the course info to the parent
+    handleNewProduct(newProduct);
+    // Restarts the newProduct state to its initial value
+    setNewProduct(initialState);
   }
 
   return (
     <div className="form_container">
+    {/* here the onSubmit event executes the function that should then be passed to the Parent */}
       <form onSubmit={handleSubmit}>
         <label>Product name</label>
         <input type="text" name="name" value={newProduct.name} onChange={handleChange} required />
